@@ -1,3 +1,4 @@
+import 'package:cari_jodoh/theme_manager/assets_image_theme_manager.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
           title: const Text("Material App"),
         ),
         body: Center(
-          child: Image.asset('assets/images/hero_image.png'),
+          child: Image.asset('${AssetImageManager.assetPath}/hero_image.png'),
         ),
       ),
     );
