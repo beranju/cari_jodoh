@@ -1,3 +1,4 @@
+import 'package:cari_jodoh/features/authtentication/ui/sign_up_screen.dart';
 import 'package:cari_jodoh/theme_manager/assets_image_theme_manager.dart';
 import 'package:cari_jodoh/theme_manager/theme_data_manager.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +11,10 @@ class AppScreen extends StatelessWidget{
     return MaterialApp(
       title: 'Flutter Demo',
       theme: getAppThemeData(),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Material App"),
-        ),
-        body: Center(
-          child: Image.asset('${AssetImageManager.assetPath}/hero_image.png'),
-        ),
-      ),
+      initialRoute: SignUpScreen.routeName,
+      routes: {
+        SignUpScreen.routeName : (context) => const SignUpScreen(),
+      },
     );
   }
 }
