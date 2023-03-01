@@ -8,6 +8,8 @@ class ColorManager{
   static Color gray = HexColor.fromHex('#A9A9AC');
   static Color white = HexColor.fromHex('#FFFFFF');
   static Color cream = HexColor.fromHex('#D9D9D9');
+  static Color gray40 = HexColor.fromHex('#8D93A8');
+  static Color gray60 = HexColor.fromHex('#737D9C');
 }
 
 /// Extension color
