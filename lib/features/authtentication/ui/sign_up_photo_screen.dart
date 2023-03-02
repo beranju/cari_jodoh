@@ -2,6 +2,7 @@
 import 'package:cari_jodoh/common_widget/custom_button_widget.dart';
 import 'package:cari_jodoh/common_widget/custom_text_button_widget.dart';
 import 'package:cari_jodoh/common_widget/upload_photo_widget.dart';
+import 'package:cari_jodoh/features/likes_you/ui/explore_people_screen.dart';
 import 'package:cari_jodoh/theme_manager/font_manager.dart';
 import 'package:cari_jodoh/theme_manager/style_manager.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
@@ -53,7 +54,9 @@ class _SignUpPhotoScreenState extends State<SignUpPhotoScreen> {
               const SizedBox(height: AppSize.s20,),
               CustomTextButtonWidget(
                 textButton: "Skip For Now",
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, ExplorePeopleScreen.routeName);
+                },
               ),
 
             ],
