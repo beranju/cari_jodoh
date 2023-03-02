@@ -10,6 +10,7 @@ class ColorManager{
   static Color cream = HexColor.fromHex('#D9D9D9');
   static Color gray40 = HexColor.fromHex('#8D93A8');
   static Color gray60 = HexColor.fromHex('#737D9C');
+  static Color purple = HexColor.fromHex('#CE92E3');
 }
 
 /// Extension color

@@ -1,7 +1,10 @@
+import 'package:cari_jodoh/common_widget/custom_button_widget.dart';
+import 'package:cari_jodoh/common_widget/custom_text_button_widget.dart';
 import 'package:cari_jodoh/common_widget/custom_text_field.dart';
 import 'package:cari_jodoh/common_widget/hero_widget.dart';
 import 'package:cari_jodoh/common_widget/logo_tagline_widget.dart';
 import 'package:cari_jodoh/common_widget/logo_widget.dart';
+import 'package:cari_jodoh/features/authtentication/ui/sign_up_job_age_screen.dart';
 import 'package:cari_jodoh/theme_manager/theme_data_manager.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +54,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textHint: "Write your security",
                   controller: passwordController,
                   isObsecure: true,
+              ),
+              const SizedBox(height: AppSize.s16,),
+              CustomButtonWidget(
+                textButton: "Get Started",
+                ontap: (){
+                  Navigator.pushNamed(context, SignUpJobAgeScreen.routeName);
+                },
+              ),
+              const SizedBox(height: AppSize.s20,),
+              CustomTextButtonWidget(
+                  textButton: "Sign In to My Account",
+                  onPressed: (){}
               ),
             ],
           ),
