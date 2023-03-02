@@ -1,5 +1,6 @@
 import 'package:cari_jodoh/common_widget/banner_widget.dart';
 import 'package:cari_jodoh/common_widget/custom_button_widget.dart';
+import 'package:cari_jodoh/features/authtentication/ui/sign_up_photo_screen.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +43,9 @@ class _SignUpJobAgeScreenState extends State<SignUpJobAgeScreen> {
               const SizedBox(height: 100,),
               CustomButtonWidget(
                   textButton: "Continue Signup",
-                  ontap: (){}
+                  ontap: (){
+                    Navigator.pushNamed(context, SignUpPhotoScreen.routeName);
+                  }
               ),
             ],
           ),
