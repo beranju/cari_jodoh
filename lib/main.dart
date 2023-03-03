@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => ExplorePeopleBloc()),
       ],
-      child: AppScreen(),
+      child: const AppScreen(),
     );
   }
 }

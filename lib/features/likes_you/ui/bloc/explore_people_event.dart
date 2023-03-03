@@ -4,6 +4,4 @@ part of 'explore_people_bloc.dart';
 abstract class ExplorePeopleEvent {}
 
 /// extend event to make an event
-class OnExplorePeopleEventCalled extends ExplorePeopleEvent{
-
-}
+class OnExplorePeopleEventCalled extends ExplorePeopleEvent{}
