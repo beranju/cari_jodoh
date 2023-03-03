@@ -1,3 +1,4 @@
+import 'package:cari_jodoh/features/authtentication/data/data_user_account_local.dart';
 import 'package:cari_jodoh/features/authtentication/ui/sign_up_job_age_screen.dart';
 import 'package:cari_jodoh/features/authtentication/ui/sign_up_photo_screen.dart';
 import 'package:cari_jodoh/features/authtentication/ui/sign_up_screen.dart';
@@ -9,18 +10,38 @@ import 'package:flutter/material.dart';
 
 import 'features/likes_you/ui/people_love_screen.dart';
 
-class AppScreen extends StatelessWidget{
+class AppScreen extends StatefulWidget{
   const AppScreen({super.key});
+
+  @override
+  State<AppScreen> createState() => _AppScreenState();
+}
+
+class _AppScreenState extends State<AppScreen> {
+  bool isRegister = false;
+
+  isUserRegister() async {
+    isRegister = await UserAccountRegister.getUserAccountRegister();
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isUserRegister();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: getAppThemeData(),
-      initialRoute: SignUpScreen.routeName,
+      // initialRoute: SignUpScreen.routeName,
+      home: isRegister ? const ExplorePeopleScreen() : const SignUpScreen(),
       routes: {
         SignUpScreen.routeName : (context) => const SignUpScreen(),
-        SignUpJobAgeScreen.routeName : (context) => const SignUpJobAgeScreen(),
         SignUpPhotoScreen.routeName : (context) => const SignUpPhotoScreen(),
         ExplorePeopleScreen.routeName : (context) => const ExplorePeopleScreen(),
         PeopleLoveScreen.routeName : (context) => const PeopleLoveScreen(),

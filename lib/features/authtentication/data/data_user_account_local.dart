@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:cari_jodoh/features/authtentication/domain/user_account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,5 +29,10 @@ class UserAccountRegister{
   static void setUserRegisterAccount(bool isRegister) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(userAccountRegisterKey, isRegister);
+  }
+
+  static void userAccountLogout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove(userAccountRegisterKey);
   }
 }

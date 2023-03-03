@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:cari_jodoh/common_widget/custom_button_widget.dart';
 import 'package:cari_jodoh/common_widget/custom_text_button_widget.dart';
 import 'package:cari_jodoh/common_widget/upload_photo_widget.dart';
+import 'package:cari_jodoh/features/authtentication/domain/user_account.dart';
+import 'package:cari_jodoh/features/authtentication/ui/auth_bloc.dart';
 import 'package:cari_jodoh/features/likes_you/ui/explore_people_screen.dart';
 import 'package:cari_jodoh/theme_manager/font_manager.dart';
 import 'package:cari_jodoh/theme_manager/style_manager.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
 import 'package:cari_jodoh/utils/image_picker_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common_widget/logo_tagline_widget.dart';
 
@@ -37,8 +40,17 @@ class _SignUpPhotoScreenState extends State<SignUpPhotoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /// get argumrnt
+    UserAccount userAccount = ModalRoute.of(context)?.settings.arguments as UserAccount;
+
     return Scaffold(
-      body: Padding(
+      body: BlocListener<AuthBloc, AuthState>(
+  listener: (context, state) {
+    if (state is AuthSuccess){
+      Navigator.pushNamedAndRemoveUntil(context, ExplorePeopleScreen.routeName, (route) => false);
+    }
+  },
+  child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: AppPadding.p50,
           horizontal: AppPadding.p24
@@ -84,7 +96,7 @@ class _SignUpPhotoScreenState extends State<SignUpPhotoScreen> {
               ),
               const SizedBox(height: 53.0,),
               Text(
-                'Beranju Sihombing',
+                userAccount.fullName,
                 style: getWhiteTextStyle(
                   fontSize: FontSizeManager.f22,
                   fontWeight: FontWeightManager.semiBold
@@ -92,26 +104,42 @@ class _SignUpPhotoScreenState extends State<SignUpPhotoScreen> {
               ),
               const SizedBox(height: AppSize.s4,),
               Text(
-                "21, Programmer",
+                "${userAccount.age}, ${userAccount.job}",
                 style: getGreyTextStyle(),
               ),
               const SizedBox(height: 150,),
               CustomButtonWidget(
                   textButton: "Update My Profile",
-                  ontap: (){}
+                  ontap: (){
+                    userAccount.imageProfile = image?.path;
+                    context.read<AuthBloc>().add(RegisterAuthEvent(userAccount: userAccount, isRegister: true));
+                  }
               ),
               const SizedBox(height: AppSize.s20,),
-              CustomTextButtonWidget(
+              BlocBuilder<AuthBloc, AuthState>(
+  builder: (context, state) {
+    if (state is AuthLoading){
+      return const CircularProgressIndicator();
+    }
+    return CustomTextButtonWidget(
                 textButton: "Skip For Now",
                 onPressed: (){
+                  context.read<AuthBloc>().add(
+                    RegisterAuthEvent(
+                        userAccount: userAccount,
+                        isRegister: true)
+                  );
                   Navigator.pushNamed(context, ExplorePeopleScreen.routeName);
                 },
-              ),
+              );
+  },
+),
 
             ],
           ),
         )
       ),
+),
     );
   }
 }
