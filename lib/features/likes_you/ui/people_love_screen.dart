@@ -53,13 +53,17 @@ class _PeopleLoveScreenState extends State<PeopleLoveScreen> {
           BlocBuilder<PeopleLovedBloc, PeopleLovedState>(
             builder: (context, state) {
               if (state is PeopleLovedLoading){
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
               if (state is PeopleLovedLoaded){
                 final users = state.userMatch;
-                return Expanded(
+                return users.isEmpty ? Center(
+                  child: Text("No data user match",
+                  style: getWhiteTextStyle(),
+                  ),
+                ) : Expanded(
                   child: ListView.builder(itemBuilder: (context, index) {
-                    return const PeopleLovedCardWidget();
+                    return PeopleLovedCardWidget(user: users[index],);
                   }, itemCount: users.length,),
                 );
               }

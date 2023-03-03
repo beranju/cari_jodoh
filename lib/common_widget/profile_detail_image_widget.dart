@@ -1,3 +1,5 @@
+import 'package:cari_jodoh/features/likes_you/domain/user.dart';
+import 'package:cari_jodoh/features/likes_you/ui/explore_people_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../theme_manager/assets_image_theme_manager.dart';
@@ -8,8 +10,10 @@ import 'match_button_widget.dart';
 
 class ProfileDetailImageWidget extends StatelessWidget {
   const ProfileDetailImageWidget({
-    super.key,
+    super.key, required this.user,
   });
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +22,10 @@ class ProfileDetailImageWidget extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 420.0,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('${AssetImageManager.assetPath}/people_image_1.png')
+                  image: AssetImage(user.imagePath)
               )
           ),
         ),
@@ -52,7 +56,9 @@ class ProfileDetailImageWidget extends StatelessWidget {
               MatchButtonWidget(
                   dimension: 24,
                   iconPath: "icon_closecircle.png",
-                  onTap: (){}
+                  onTap: (){
+                    Navigator.pushNamedAndRemoveUntil(context, ExplorePeopleScreen.routeName, (route) => false);
+                  }
               ),
             ],
           ),

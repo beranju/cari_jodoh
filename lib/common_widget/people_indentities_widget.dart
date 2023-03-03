@@ -1,3 +1,4 @@
+import 'package:cari_jodoh/features/likes_you/domain/user.dart';
 import 'package:flutter/material.dart';
 
 import '../theme_manager/font_manager.dart';
@@ -6,8 +7,10 @@ import '../theme_manager/values_manager.dart';
 
 class PeopleIdentities extends StatelessWidget {
   const PeopleIdentities({
-    super.key,
+    super.key, required this.user,
   });
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +20,19 @@ class PeopleIdentities extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Blessta Elina Sinaga",
+            user.fullName,
             style: getWhiteTextStyle(
                 fontSize: FontSizeManager.f28,
                 fontWeight: FontWeightManager.semiBold
             ),
           ),
           Text(
-            '20, Civil Engineer',
+            '${user.age}, ${user.occupation}',
             style: getGreyTextStyle(),
           ),
           const SizedBox(height: AppSize.s16,),
           Text(
-            "I love solving problem in terms of finance, business, and any case. With you, we will solve all world problems.",
+            user.description,
             style: getWhiteTextStyle(),
           ),
           const SizedBox(height: AppSize.s16,)

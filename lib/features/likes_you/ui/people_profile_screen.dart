@@ -1,6 +1,7 @@
 import 'package:cari_jodoh/common_widget/custom_button_widget.dart';
 import 'package:cari_jodoh/common_widget/match_button_widget.dart';
 import 'package:cari_jodoh/common_widget/people_indentities_widget.dart';
+import 'package:cari_jodoh/features/likes_you/domain/user.dart';
 import 'package:cari_jodoh/theme_manager/assets_image_theme_manager.dart';
 import 'package:cari_jodoh/theme_manager/style_manager.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
@@ -15,12 +16,13 @@ class PeopleProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       body: Column(
         children: [
-          const ProfileDetailImageWidget(),
+          ProfileDetailImageWidget(user: user),
           const SizedBox(height: AppSize.s30,),
-          const PeopleIdentities(),
+          PeopleIdentities(user: user),
           Container(
             height: 80.0,
             margin: const EdgeInsets.only(left: AppMargin.m24),
@@ -35,7 +37,7 @@ class PeopleProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppSize.s18),
                     image: const DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage('${AssetImageManager.assetPath}/album_image_1.png')
+                      image: AssetImage('${AssetImageManager.assetPath}/album_image_2.png')
                     )
                   ),
                 );
