@@ -28,8 +28,8 @@ class _SignUpJobAgeScreenState extends State<SignUpJobAgeScreen> {
   final jobController = TextEditingController();
   final ageController = TextEditingController();
 
-  String? validationInput(){
-    if(jobController.text.isEmpty || ageController.text.isEmpty){
+  String? validationInput() {
+    if (jobController.text.isEmpty || ageController.text.isEmpty) {
       return "Field job or age can\'t be empty";
     }
     return null;
@@ -63,10 +63,13 @@ class _SignUpJobAgeScreenState extends State<SignUpJobAgeScreen> {
                   ontap: () {
                     /// check input validation
                     final message = validationInput();
-                    if (message != null){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(message))
-                      );
+                    if (message != null) {
+                      /// hide latest snackbar
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      /// add new snackbar
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(message)));
+
                       /// return ini dibuat agar kode dibawahnya tidak dijalankan
                       return;
                     }
@@ -90,6 +93,8 @@ class _SignUpJobAgeScreenState extends State<SignUpJobAgeScreen> {
   void dispose() {
     ageController.clear();
     jobController.clear();
+    ageController.dispose();
+    jobController.dispose();
     super.dispose();
   }
 }

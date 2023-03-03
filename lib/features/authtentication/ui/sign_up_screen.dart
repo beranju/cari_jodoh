@@ -22,14 +22,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  String? validationInput(){
-    if(nameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty){
+  String? validationInput() {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
       return "Field name, email and password can\'t be empty";
     }
-    if(passwordController.text.length < 6){
+    if (passwordController.text.length < 6) {
       return "Password to short, minimal 6 character";
     }
-    if(!emailController.text.contains('@')){
+    if (!emailController.text.contains('@')) {
       return "Email not valid";
     }
 
@@ -68,13 +70,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ontap: () {
                     /// check input validation
                     final message = validationInput();
-                    if (message != null){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(message))
-                      );
+                    if (message != null) {
+                      /// hide latest snackbar
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(message)));
+
                       /// return ini dibuat agar kode dibawahnya tidak dijalankan
                       return;
                     }
+
                     /// karena perlu send data to next screen ubah mnajfi push
                     // Navigator.pushNamed(context, SignUpJobAgeScreen.routeName);
                     Navigator.push(
@@ -102,6 +107,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     nameController.clear();
     emailController.clear();
     passwordController.clear();
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 }

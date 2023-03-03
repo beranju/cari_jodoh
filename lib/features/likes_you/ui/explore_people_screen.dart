@@ -20,7 +20,6 @@ class ExplorePeopleScreen extends StatefulWidget {
 }
 
 class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
-
   UserAccount? userAccount;
 
   /// make button controller
@@ -30,9 +29,7 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
     final data = await DataUserAccountLocal.getDataUserAccountFromStorage();
     final result = UserAccount.fromMap(data);
     userAccount = result;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -49,58 +46,70 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
-            horizontal: AppPadding.p24,
-            vertical: AppPadding.p40
-        ),
+            horizontal: AppPadding.p24, vertical: AppPadding.p40),
         child: Column(
           children: [
-            ExplorePeopleAppBarWidget(imagePath: userAccount?.imageProfile,),
-            const SizedBox(height: AppSize.s50,),
+            ExplorePeopleAppBarWidget(
+              imagePath: userAccount?.imageProfile,
+            ),
+            const SizedBox(
+              height: AppSize.s50,
+            ),
 
             /// wrap this expanded with blocbuilder
             BlocBuilder<ExplorePeopleBloc, ExplorePeopleState>(
               builder: (context, state) {
-                if (state is ExplorePeopleLoading){
+                if (state is ExplorePeopleLoading) {
                   return const CircularProgressIndicator();
                 }
-                if (state is ExplorePeopleLoaded){
+                if (state is ExplorePeopleLoaded) {
                   final users = state.result;
                   List<Widget> cards = [];
+
                   /// looping
-                  for (var user in users){
+                  for (var user in users) {
                     cards.add(MatchCardWidget(user: user));
                   }
                   return Expanded(
                     child: Column(
                       children: [
                         /// disini tidak lai manggil matchcardwidget tapi appinium swipper
-                        Expanded(child: AppinioSwiper(
+                        Expanded(
+                            child: AppinioSwiper(
                           direction: AppinioSwiperDirection.top,
-                          onSwipe: (
-                              int index,
-                              AppinioSwiperDirection direction
-                              ){
-                            if (direction == AppinioSwiperDirection.top){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Yeayy!, you match with ${users[index].fullName}'),
-                                )
-                              );
-                              if(direction != AppinioSwiperDirection.left && direction != AppinioSwiperDirection.right && direction != AppinioSwiperDirection.bottom){
-                                context.read<PeopleLovedBloc>().add(AddPeopleLoved(user: users[index]));
+                          onSwipe:
+                              (int index, AppinioSwiperDirection direction) {
+                            if (direction == AppinioSwiperDirection.top) {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: Text(
+                                    'Yeayy!, you match with ${users[index].fullName}'),
+                              ));
+                              if (direction != AppinioSwiperDirection.left &&
+                                  direction != AppinioSwiperDirection.right &&
+                                  direction != AppinioSwiperDirection.bottom) {
+                                context
+                                    .read<PeopleLovedBloc>()
+                                    .add(AddPeopleLoved(user: users[index]));
                               }
                             }
-
                           },
                           controller: cardController,
-                            cards: cards,
+                          cards: cards,
+
                           /// tambahakan parameter on onend untuk mengambil data ulang ketika data habis
-                          onEnd: (){
-                              context.read<ExplorePeopleBloc>()
-                                  .add(OnExplorePeopleEventCalled());
+                          onEnd: () {
+                            context
+                                .read<ExplorePeopleBloc>()
+                                .add(OnExplorePeopleEventCalled());
                           },
                           padding: EdgeInsets.zero,
                         )),
-                        const SizedBox(height: AppSize.s50,),
+                        const SizedBox(
+                          height: AppSize.s50,
+                        ),
                         ExploreButtonWidget(
                           controller: cardController,
                         ),
@@ -108,6 +117,7 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
                     ),
                   );
                 }
+
                 /// jika initial maka akan return container empty
                 return Container();
               },
