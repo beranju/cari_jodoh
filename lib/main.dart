@@ -1,4 +1,5 @@
 import 'package:cari_jodoh/features/authtentication/ui/auth_bloc.dart';
+import 'package:cari_jodoh/features/likes_you/ui/bloc/explore_people_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
     /// di init din app screen supaya bisa digunakan disemua turunan app screen
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc())
+        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => ExplorePeopleBloc()),
       ],
       child: AppScreen(),
     );
