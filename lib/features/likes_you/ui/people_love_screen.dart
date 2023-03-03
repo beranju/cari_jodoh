@@ -1,13 +1,27 @@
+import 'package:cari_jodoh/features/likes_you/ui/bloc/people_loved/people_loved_bloc.dart';
 import 'package:cari_jodoh/theme_manager/font_manager.dart';
 import 'package:cari_jodoh/theme_manager/style_manager.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common_widget/people_loved_card_widget.dart';
 
-class PeopleLoveScreen extends StatelessWidget{
+class PeopleLoveScreen extends StatefulWidget {
   static const String routeName = '/people-loved';
+
   const PeopleLoveScreen({super.key});
+
+  @override
+  State<PeopleLoveScreen> createState() => _PeopleLoveScreenState();
+}
+
+class _PeopleLoveScreenState extends State<PeopleLoveScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PeopleLovedBloc>().add(OnPeopleLovedEventCalled());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +32,13 @@ class PeopleLoveScreen extends StatelessWidget{
           "People you\nloved",
           textAlign: TextAlign.center,
           style: getWhiteTextStyle(
-            fontSize: FontSizeManager.f20,
-            fontWeight: FontWeightManager.semiBold
+              fontSize: FontSizeManager.f20,
+              fontWeight: FontWeightManager.semiBold
           ),
         ),
         actions: [
           IconButton(
-              onPressed: (){} ,
+              onPressed: () {},
               icon: const Icon(
                 Icons.search_outlined,
                 size: AppSize.s30,
@@ -34,10 +48,26 @@ class PeopleLoveScreen extends StatelessWidget{
       body: Column(
         children: [
           const SizedBox(height: AppSize.s50,),
-          Expanded(
-            child: ListView.builder(itemBuilder: (context, index){
-              return const PeopleLovedCardWidget();
-            }, itemCount: 10,),
+
+          /// bungkus list dengan bloc builder
+          BlocBuilder<PeopleLovedBloc, PeopleLovedState>(
+            builder: (context, state) {
+              if (state is PeopleLovedLoading){
+                return const CircularProgressIndicator();
+              }
+              if (state is PeopleLovedLoaded){
+                final users = state.userMatch;
+                return Expanded(
+                  child: ListView.builder(itemBuilder: (context, index) {
+                    return const PeopleLovedCardWidget();
+                  }, itemCount: users.length,),
+                );
+              }
+
+              /// return container empty when inital state
+              return Container();
+
+            },
           ),
         ],
       ),

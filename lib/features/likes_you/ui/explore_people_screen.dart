@@ -4,7 +4,8 @@ import 'package:cari_jodoh/common_widget/explore_people_app_bar_widget.dart';
 import 'package:cari_jodoh/common_widget/match_card_widget.dart';
 import 'package:cari_jodoh/features/authtentication/data/data_user_account_local.dart';
 import 'package:cari_jodoh/features/authtentication/domain/user_account.dart';
-import 'package:cari_jodoh/features/likes_you/ui/bloc/explore_people_bloc.dart';
+import 'package:cari_jodoh/features/likes_you/ui/bloc/people_explore/explore_people_bloc.dart';
+import 'package:cari_jodoh/features/likes_you/ui/bloc/people_loved/people_loved_bloc.dart';
 import 'package:cari_jodoh/theme_manager/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,9 @@ class ExplorePeopleScreen extends StatefulWidget {
 class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
 
   UserAccount? userAccount;
+
+  /// make button controller
+  final cardController = AppinioSwiperController();
 
   getDataUser() async {
     final data = await DataUserAccountLocal.getDataUserAccountFromStorage();
@@ -71,15 +75,35 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
                       children: [
                         /// disini tidak lai manggil matchcardwidget tapi appinium swipper
                         Expanded(child: AppinioSwiper(
+                          direction: AppinioSwiperDirection.top,
+                          onSwipe: (
+                              int index,
+                              AppinioSwiperDirection direction
+                              ){
+                            if (direction == AppinioSwiperDirection.top){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Yeayy!, you match with ${users[index].fullName}'),
+                                )
+                              );
+                              if(direction != AppinioSwiperDirection.left && direction != AppinioSwiperDirection.right && direction != AppinioSwiperDirection.bottom){
+                                context.read<PeopleLovedBloc>().add(AddPeopleLoved(user: users[index]));
+                              }
+                            }
+
+                          },
+                          controller: cardController,
                             cards: cards,
                           /// tambahakan parameter on onend untuk mengambil data ulang ketika data habis
                           onEnd: (){
                               context.read<ExplorePeopleBloc>()
                                   .add(OnExplorePeopleEventCalled());
                           },
+                          padding: EdgeInsets.zero,
                         )),
                         const SizedBox(height: AppSize.s50,),
-                        const ExploreButtonWidget(),
+                        ExploreButtonWidget(
+                          controller: cardController,
+                        ),
                       ],
                     ),
                   );
@@ -92,5 +116,11 @@ class _ExplorePeopleScreenState extends State<ExplorePeopleScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    cardController.dispose();
+    super.dispose();
   }
 }
